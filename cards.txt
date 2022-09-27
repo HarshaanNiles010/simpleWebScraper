@@ -1,0 +1,4 @@
+cardNum = 4007000000027
+cardExpMon = 08
+cardExpYar = 24
+cardPin = 234
