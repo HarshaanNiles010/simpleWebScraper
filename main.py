@@ -4,22 +4,42 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
+from selenium.webdriver.support.wait import WebDriverWait
+
 
 def siteScraper():
     PATH = "C:\Program Files (x86)\chromedriver.exe"
     driver = webdriver.Chrome(PATH)
     try:
-        driver.get("https://www.footlocker.ca/en/release-dates")
-        productPage = driver.find_element(By.CLASS_NAME, "c-release-calender-details")
-        products = productPage.find_elements(By.CLASS_NAME, "ReleaseCalendar-Products")
-        results = []
-        for product in products:
-            info = product.find_elements(By.CLASS_NAME, "col")
-            results.append([i.text for i in info])
-        print(results)
-    except:
-        print("Encountered some problem closing the web page")
-        driver.quit()
+        driver.get("https://www.footlocker.ca/en/category/new-arrivals.html")
+        driver.find_element(By.CLASS_NAME,"ProductCard").click()
+        element = WebDriverWait(driver,10).until(
+            EC.presence_of_element_located((By.CLASS_NAME,"Buttons--stackOnMobile"))
+        )
+        #products = driver.find_element(By.CLASS_NAME,"ProductDetails-form__info")
+        driver.find_element(By.CSS_SELECTOR,"[aria-label='Size: 09.0']").click()
+        #products.click()
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "//button[@class='Button ProductDetails-form__action'][.='Add To Cart']"))
+        )
+        driver.find_element(By.XPATH,"//button[@class='Button ProductDetails-form__action'][.='Add To Cart']").click()
+        #print(products.text)
+        #print(products.text)
+
+
+        #productPage = driver.find_element(By.CLASS_NAME, "SearchResults")
+        #product = productPage.find_element(By.CLASS_NAME,"ProductCard")
+        #product.click()
+        #wait = WebDriverWait(driver, 10)
+        #element = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'Buttons--stackOnMobile')))
+        #ids = product.find_elements(By.ID,"main")
+        #print(ids)
+        #cart = driver.find_element(By.CLASS_NAME,"Button Button--alt")
+
+
+    except Exception as e:
+        print(f'error detail {e}')
+
     finally:
         time.sleep(5)
         driver.quit()
@@ -42,4 +62,5 @@ def cardVerify(cardPath):
         return
 
 
-cardVerify(cardPath)
+# cardVerify(cardPath)
+siteScraper()
