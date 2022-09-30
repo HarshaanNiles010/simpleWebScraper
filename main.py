@@ -12,29 +12,30 @@ def siteScraper():
     driver = webdriver.Chrome(PATH)
     try:
         driver.get("https://www.footlocker.ca/en/category/new-arrivals.html")
-        driver.find_element(By.CLASS_NAME,"ProductCard").click()
-        element = WebDriverWait(driver,10).until(
-            EC.presence_of_element_located((By.CLASS_NAME,"Buttons--stackOnMobile"))
-        )
-        #products = driver.find_element(By.CLASS_NAME,"ProductDetails-form__info")
-        driver.find_element(By.CSS_SELECTOR,"[aria-label='Size: 09.0']").click()
-        #products.click()
+        driver.find_element(By.CLASS_NAME, "ProductCard").click()
         element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "//button[@class='Button ProductDetails-form__action'][.='Add To Cart']"))
+            EC.presence_of_element_located((By.CLASS_NAME, "Buttons--stackOnMobile"))
         )
-        driver.find_element(By.XPATH,"//button[@class='Button ProductDetails-form__action'][.='Add To Cart']").click()
-        #print(products.text)
-        #print(products.text)
+        # products = driver.find_element(By.CLASS_NAME,"ProductDetails-form__info")
+        driver.find_element(By.CSS_SELECTOR, "[aria-label='Size: 09.0']").click()
+        element = WebDriverWait(driver, 10).until(
+             EC.element_to_be_clickable(
+                 (By.CLASS_NAME,"Buttons--stackOnMobile"))
+        )
+        #driver.find_element(By.PARTIAL_LINK_TEXT,"Add To Cart").click()
 
+        # driver.find_element(By.XPATH,"//button[@class='Button ProductDetails-form__action'][.='Add To Cart']").click()
+        # print(products.text)
+        # print(products.text)
 
-        #productPage = driver.find_element(By.CLASS_NAME, "SearchResults")
-        #product = productPage.find_element(By.CLASS_NAME,"ProductCard")
-        #product.click()
-        #wait = WebDriverWait(driver, 10)
-        #element = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'Buttons--stackOnMobile')))
-        #ids = product.find_elements(By.ID,"main")
-        #print(ids)
-        #cart = driver.find_element(By.CLASS_NAME,"Button Button--alt")
+        # productPage = driver.find_element(By.CLASS_NAME, "SearchResults")
+        # product = productPage.find_element(By.CLASS_NAME,"ProductCard")
+        # product.click()
+        # wait = WebDriverWait(driver, 10)
+        # element = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'Buttons--stackOnMobile')))
+        # ids = product.find_elements(By.ID,"main")
+        # print(ids)
+        # cart = driver.find_element(By.CLASS_NAME,"Button Button--alt")
 
 
     except Exception as e:
