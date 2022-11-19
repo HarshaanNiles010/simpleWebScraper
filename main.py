@@ -3,18 +3,22 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import requests
 
-URL = "https://www.footlocker.ca/en/category/new-arrivals.html"
-r = requests.get(URL)
-soup = BeautifulSoup(r.content, 'html5lib')
-sales = soup.find('div', attrs={'class': 'SearchResults'})
-itemLinks = []
-counter = 0
-for row in sales.find_all('li', attrs={"class": "product-container col"}):
-    reading = {}
+def htmlExtractor(URL):
+    r = requests.get(URL)
+    soup = BeautifulSoup(r.content, 'html5lib')
+    return soup
+
+def itemLinkFinder(soup):
+    sales = soup.find('div', attrs={'class': 'SearchResults'})
+    itemLinks = []
+    counter = 0
+    for row in sales.find_all('li', attrs={"class": "product-container col"}):
+        reading = {}
     # reading['descr'] = row.img['alt']
-    reading['link' + str(counter)] = row.a['href']
-    itemLinks.append(reading)
-    counter += 1
+        reading['link' + str(counter)] = row.a['href']
+        itemLinks.append(reading)
+        counter += 1
+    return itemLinks
 
 
 # print(ShowData)
@@ -28,14 +32,14 @@ for row in sales.find_all('li', attrs={"class": "product-container col"}):
 #         w.writerow(data)
 
 def urlProcessing(URL1, URL2):
-    URL1 = list(URL.split("/"))
+    URL1 = list(URL1.split("/"))
     URL1 = URL1[:3]
     URL1 = "/".join(URL1)
     newURL = URL1 + URL2
     return newURL
 
 
-def linkMaker(itemLinks):
+def linkMaker(URL,itemLinks):
     counter = 0
     itemURLS = []
     for links in itemLinks:
@@ -52,5 +56,8 @@ def OpenLinks(itemURLS):
 
     driver.close()
 
+footLocker = "https://www.footlocker.ca/en/category/new-arrivals.html"
+soupObject = htmlExtractor(footLocker)
+itemLinks = itemLinkFinder(soupObject)
+itemURLs = linkMaker(footLocker,itemLinks)
 
-OpenLinks(linkMaker(itemLinks))
