@@ -1,4 +1,6 @@
 import csv
+import time
+
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import requests
@@ -55,9 +57,19 @@ def OpenLinks(itemURLS):
         driver.get(urls)
 
     driver.close()
+def open_one_link(URL):
+    driver = webdriver.Chrome()
+    driver.get(URL)
+    time.sleep(5)
+    driver.close()
 
 footLocker = "https://www.footlocker.ca/en/category/new-arrivals.html"
 soupObject = htmlExtractor(footLocker)
 itemLinks = itemLinkFinder(soupObject)
 itemURLs = linkMaker(footLocker,itemLinks)
+item_soup_objects = []
+for url in itemURLs:
+    item_soup_objects.append(htmlExtractor(url))
+
+print(item_soup_objects[0].prettify())
 
